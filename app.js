@@ -23,16 +23,33 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => {
 
+  res.render('home', {
 
-  
 
-
-  res.render('home',{
-
- 
-    para1:homeStartingContent,
+    para1: homeStartingContent,
 
   });
+
+})
+
+
+app.get('/about', (req, res) => {
+
+
+  res.render('about', {
+
+    para1: aboutContent,
+
+  })
+
+})
+
+app.get('/contact', (req, res) => {
+
+  res.render('contact', {
+
+    para1: contactContent,
+  })
 
 })
 
