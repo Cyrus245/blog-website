@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const _ = require('lodash');
 
 
 
@@ -20,21 +21,28 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
+const posts = [];
+
 
 app.get("/", (req, res) => {
+
 
   res.render('home', {
 
 
     para1: homeStartingContent,
+    ps: posts,
 
   });
+
+
+
+
 
 })
 
 
 app.get('/about', (req, res) => {
-
 
   res.render('about', {
 
@@ -53,15 +61,55 @@ app.get('/contact', (req, res) => {
 
 })
 
+app.get('/compose', (req, res) => {
+
+  res.render('compose');
+
+})
+
+
+app.get('/posts/:topic', (req, res) => {
+
+  const requestedTitle = req.params.topic;
+
+
+  posts.forEach((post) => {
+
+    const storedTitle = post.postTitle;
+
+    if (_.lowerCase(requestedTitle) === _.lowerCase(storedTitle)) {
+
+      console.log(`Match found`);
+
+    } else {
+
+      console.log(`doesn't match`);
+    }
 
 
 
 
+  })
+
+
+})
 
 
 
+app.post('/compose', (req, res) => {
 
 
+  const post = {
+
+    postTitle: req.body.title,
+    postBody: req.body.post,
+
+  }
+
+  posts.push(post);
+  res.redirect('/')
+
+})
 
 
 
