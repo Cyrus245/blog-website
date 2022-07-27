@@ -33,11 +33,8 @@ app.get("/", (req, res) => {
     para1: homeStartingContent,
     ps: posts,
 
+
   });
-
-
-
-
 
 })
 
@@ -51,6 +48,7 @@ app.get('/about', (req, res) => {
   })
 
 })
+
 
 app.get('/contact', (req, res) => {
 
@@ -76,23 +74,30 @@ app.get('/posts/:topic', (req, res) => {
   posts.forEach((post) => {
 
     const storedTitle = post.postTitle;
+    const postBody = post.postBody;
 
     if (_.lowerCase(requestedTitle) === _.lowerCase(storedTitle)) {
 
-      console.log(`Match found`);
+      res.render('post', {
 
-    } else {
+        title: storedTitle,
+        body: postBody,
+     
 
-      console.log(`doesn't match`);
+
+
+
+      })
+
     }
-
-
-
-
   })
 
 
+
+
 })
+
+
 
 
 

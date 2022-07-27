@@ -1,18 +1,16 @@
 <%-include('partials/header')%>
 
 <h1>Home</h1>
-<p><%=para1%></p>
+<p class="p-align"><%=para1%></p>
 
 <!-- <h1>Post</h1> -->
 <!-- <p><%=ps%></p> -->
 <%ps.forEach((title)=>{%>
 
-<% const pTitle= title.postTitle;%>
+<% const pTitle= title.postTitle%>
 <h2><%=pTitle%></h2>
-<% const pBody= title.postBody;%>
-<p><%=pBody%> </p>
-
+<% const pBody= title.postBody.substring(1,100)+"..."%>
+<p class="p-align"><%=pBody%><a href="/posts/<%=pTitle%>">Read More</a></p>
 <%})%>
-
 
 <%-include('partials/footer')%>
