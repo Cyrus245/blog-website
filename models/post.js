@@ -2,7 +2,13 @@ const mongoose = require('mongoose');
 
 const postSchema = {
 
-    title: String,
+    title: {
+
+        type: String,
+        uppercase: false,
+
+
+    },
     post: String
 
 
@@ -11,3 +17,6 @@ const postSchema = {
 const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;
+
+
+

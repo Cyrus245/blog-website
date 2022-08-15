@@ -76,14 +76,34 @@ app.get('/compose', (req, res) => {
 
 })
 
+app.post('/compose', (req, res) => {
+
+
+  const nEntry = new Post({
+
+    title: req.body.title,
+    post: req.body.post,
+
+
+  })
+
+  nEntry.save()
+
+  res.redirect('/')
+
+})
+
 
 
 app.get('/posts/:topic', (req, res) => {
 
   const requestedId = req.params.topic;
 
+
   Post.findOne({
     _id: requestedId
+
+
   }).then(result => {
 
     res.render('post', {
@@ -103,12 +123,12 @@ app.get('/posts/:topic', (req, res) => {
 app.post('/posts/:topic', (req, res) => {
 
 
-  const button = req.body.button;
+  const postId = req.body.button;
 
 
 
   Post.findByIdAndRemove({
-    _id: button,
+    _id: postId,
 
   }, {
     true: "asfasf"
@@ -118,38 +138,6 @@ app.post('/posts/:topic', (req, res) => {
 
 
   })
-
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.post('/compose', (req, res) => {
-
-
-
-  const nEntry = new Post({
-
-    title: req.body.title,
-    post: req.body.post,
-
-
-  })
-
-  nEntry.save()
-
-  res.redirect('/')
 
 })
 
