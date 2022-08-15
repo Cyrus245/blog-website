@@ -4,4 +4,8 @@
 <p class="p-align"><%=body%></p>
 
 
+<form action="/posts/<%=id%>" method="post">
+    <button type="submit" name="button" value="<%=id%>">Delete post</button>
+</form>
+
 <%-include('partials/footer')%>

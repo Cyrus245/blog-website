@@ -1,9 +1,13 @@
-//jshint esversion:6
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require('lodash');
+const mongoose = require('mongoose');
+mongoose.connect("mongodb://localhost:27017/blogDB")
+const Post = require('./models/post');
+const {
+  request
+} = require("express");
 
 
 
@@ -21,20 +25,27 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-const posts = [];
+
 
 
 app.get("/", (req, res) => {
 
-
-  res.render('home', {
-
-
-    para1: homeStartingContent,
-    ps: posts,
+  Post.find().then(result => {
 
 
-  });
+
+    res.render('home', {
+
+
+      para1: homeStartingContent,
+      ps: result
+
+
+    });
+
+  })
+
+
 
 })
 
@@ -66,36 +77,59 @@ app.get('/compose', (req, res) => {
 })
 
 
+
 app.get('/posts/:topic', (req, res) => {
 
-  const requestedTitle = req.params.topic;
+  const requestedId = req.params.topic;
 
+  Post.findOne({
+    _id: requestedId
+  }).then(result => {
 
-  posts.forEach((post) => {
+    res.render('post', {
 
-    const storedTitle = post.postTitle;
-    const postBody = post.postBody;
+      id: requestedId,
+      title: result.title,
+      body: result.post
 
-    if (_.lowerCase(requestedTitle) === _.lowerCase(storedTitle)) {
+    })
 
-      res.render('post', {
-
-        title: storedTitle,
-        body: postBody,
-     
-
-
-
-
-      })
-
-    }
   })
 
 
+})
 
+
+app.post('/posts/:topic', (req, res) => {
+
+
+  const button = req.body.button;
+
+
+
+  Post.findByIdAndRemove({
+    _id: button,
+
+  }, {
+    true: "asfasf"
+  }).then(result => {
+
+    res.redirect('/')
+
+
+  })
 
 })
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -104,14 +138,17 @@ app.get('/posts/:topic', (req, res) => {
 app.post('/compose', (req, res) => {
 
 
-  const post = {
 
-    postTitle: req.body.title,
-    postBody: req.body.post,
+  const nEntry = new Post({
 
-  }
+    title: req.body.title,
+    post: req.body.post,
 
-  posts.push(post);
+
+  })
+
+  nEntry.save()
+
   res.redirect('/')
 
 })

@@ -5,12 +5,17 @@
 
 <!-- <h1>Post</h1> -->
 <!-- <p><%=ps%></p> -->
-<%ps.forEach((title)=>{%>
+<%ps.forEach(x=>{%>
 
-<% const pTitle= title.postTitle%>
+<% const pTitle = x.title;%>
+<% const pBody = x.post;%>
+
 <h2><%=pTitle%></h2>
-<% const pBody= title.postBody.substring(1,100)+"..."%>
-<p class="p-align"><%=pBody%><a href="/posts/<%=pTitle%>">Read More</a></p>
+<p><%=pBody.substring(0,100)+"..."%><a href="/posts/<%=x._id%>">Read More</a></p>
+
 <%})%>
+
+
+
 
 <%-include('partials/footer')%>
