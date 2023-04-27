@@ -2,12 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/blogDB");
 const { request } = require("express");
 const dotenv = require("dotenv").config();
 const { PORT } = process.env;
 const router = require("./routes/router");
+const mongoose = require("mongoose");
+mongoose.connect(
+  process.env.DATABASE_URL || "mongodb://localhost:27017/blogDB"
+);
 
 const app = express();
 
